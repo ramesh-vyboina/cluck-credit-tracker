@@ -7,6 +7,7 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+from backend.app.routers import transactions
 from typing import List, Dict, Optional
 from datetime import datetime
 import uuid
@@ -176,3 +177,16 @@ def add_example_data():
     db["suppliers"].append(example_supplier)
 
 add_example_data()
+
+
+app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # update for security
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+app.include_router(transactions.router)
