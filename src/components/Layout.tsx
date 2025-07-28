@@ -54,8 +54,8 @@ const Layout = ({ children, activeTab, onTabChange }: LayoutProps) => {
                 <Store className="w-5 h-5 text-primary-foreground" />
               </div>
               <div>
-                <h2 className="text-lg font-semibold text-foreground">Chicken Shop</h2>
-                <p className="text-sm text-muted-foreground">Management System</p>
+                <h2 className="text-lg font-semibold text-foreground">Srinivas Chicken</h2>
+                <p className="text-sm text-muted-foreground">Since 1996</p>
               </div>
             </div>
           </div>
