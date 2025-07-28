@@ -5,8 +5,11 @@ import ClientManagement from "@/components/ClientManagement";
 import SalesManagement from "@/components/SalesManagement";
 import PaymentManagement from "@/components/PaymentManagement";
 import PriceManagement from "@/components/PriceManagement";
+import ProductManagement from "@/components/ProductManagement";
+import InventoryManagement from "@/components/InventoryManagement";
+import SupplierManagement from "@/components/SupplierManagement";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
-import { Client, Sale, Payment, DailyPrice } from "@/types";
+import { Client, Sale, Payment, DailyPrice, Product, Inventory, Supplier } from "@/types";
 
 const Index = () => {
   const [activeTab, setActiveTab] = useState("dashboard");
@@ -14,6 +17,9 @@ const Index = () => {
   const [sales, setSales] = useLocalStorage<Sale[]>("chicken-shop-sales", []);
   const [payments, setPayments] = useLocalStorage<Payment[]>("chicken-shop-payments", []);
   const [dailyPrices, setDailyPrices] = useLocalStorage<DailyPrice[]>("chicken-shop-prices", []);
+  const [products, setProducts] = useLocalStorage<Product[]>("chicken-shop-products", []);
+  const [inventory, setInventory] = useLocalStorage<Inventory[]>("chicken-shop-inventory", []);
+  const [suppliers, setSuppliers] = useLocalStorage<Supplier[]>("chicken-shop-suppliers", []);
 
   // Generate unique ID
   const generateId = () => Date.now().toString() + Math.random().toString(36).substr(2, 9);
@@ -86,6 +92,55 @@ const Index = () => {
     setDailyPrices([...dailyPrices, newPrice]);
   };
 
+  // Product management functions
+  const handleAddProduct = (productData: Omit<Product, 'id'>) => {
+    const newProduct: Product = {
+      ...productData,
+      id: generateId()
+    };
+    setProducts([...products, newProduct]);
+  };
+
+  const handleUpdateProduct = (id: string, updates: Partial<Product>) => {
+    setProducts(products.map(product => 
+      product.id === id ? { ...product, ...updates } : product
+    ));
+  };
+
+  const handleDeleteProduct = (id: string) => {
+    setProducts(products.filter(product => product.id !== id));
+  };
+
+  // Inventory management functions
+  const handleAddInventory = (inventoryData: Omit<Inventory, 'id'>) => {
+    const newInventory: Inventory = {
+      ...inventoryData,
+      id: generateId()
+    };
+    setInventory([...inventory, newInventory]);
+  };
+
+  const handleUpdateInventory = (id: string, updates: Partial<Inventory>) => {
+    setInventory(inventory.map(item => 
+      item.id === id ? { ...item, ...updates } : item
+    ));
+  };
+
+  // Supplier management functions
+  const handleAddSupplier = (supplierData: Omit<Supplier, 'id'>) => {
+    const newSupplier: Supplier = {
+      ...supplierData,
+      id: generateId()
+    };
+    setSuppliers([...suppliers, newSupplier]);
+  };
+
+  const handleUpdateSupplier = (id: string, updates: Partial<Supplier>) => {
+    setSuppliers(suppliers.map(supplier => 
+      supplier.id === id ? { ...supplier, ...updates } : supplier
+    ));
+  };
+
   const renderContent = () => {
     switch (activeTab) {
       case "dashboard":
@@ -120,6 +175,33 @@ const Index = () => {
           <PriceManagement 
             dailyPrices={dailyPrices}
             onAddPrice={handleAddPrice}
+          />
+        );
+      case "products":
+        return (
+          <ProductManagement 
+            products={products}
+            onAddProduct={handleAddProduct}
+            onUpdateProduct={handleUpdateProduct}
+            onDeleteProduct={handleDeleteProduct}
+          />
+        );
+      case "inventory":
+        return (
+          <InventoryManagement 
+            inventory={inventory}
+            products={products}
+            suppliers={suppliers}
+            onAddInventory={handleAddInventory}
+            onUpdateInventory={handleUpdateInventory}
+          />
+        );
+      case "suppliers":
+        return (
+          <SupplierManagement 
+            suppliers={suppliers}
+            onAddSupplier={handleAddSupplier}
+            onUpdateSupplier={handleUpdateSupplier}
           />
         );
       default:

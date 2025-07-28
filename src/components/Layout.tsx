@@ -9,7 +9,10 @@ import {
   IndianRupee,
   Menu,
   X,
-  Store
+  Store,
+  Package,
+  Warehouse,
+  Truck
 } from "lucide-react";
 
 interface LayoutProps {
@@ -24,6 +27,9 @@ const Layout = ({ children, activeTab, onTabChange }: LayoutProps) => {
   const menuItems = [
     { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
     { id: "clients", label: "Clients", icon: Users },
+    { id: "products", label: "Products", icon: Package },
+    { id: "suppliers", label: "Suppliers", icon: Truck },
+    { id: "inventory", label: "Inventory", icon: Warehouse },
     { id: "sales", label: "Sales", icon: ShoppingCart },
     { id: "payments", label: "Payments", icon: CreditCard },
     { id: "prices", label: "Daily Prices", icon: IndianRupee },
