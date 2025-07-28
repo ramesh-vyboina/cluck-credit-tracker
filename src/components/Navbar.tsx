@@ -1,7 +1,7 @@
 // src/components/Navbar.tsx
 import { Link } from "react-router-dom";
 
-export function Navbar() {
+export default function Navbar() {
   return (
     <nav>
       <Link to="/">Home</Link>
