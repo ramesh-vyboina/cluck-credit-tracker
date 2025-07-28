@@ -13,3 +13,22 @@ def create_customer(db: Session, customer: schemas.CustomerCreate):
     db.commit()
     db.refresh(db_cust)
     return db_cust
+
+# products
+def create_product(db, prod: schemas.ProductCreate):
+    dbp = models.Product(**prod.dict())
+    db.add(dbp); db.commit(); db.refresh(dbp)
+    return dbp
+
+def update_product_price(db, product_id, new_price):
+    p = db.query(models.Product).get(product_id)
+    p.price = new_price; db.commit(); db.refresh(p)
+    return p
+
+# sales
+def create_sale(db, sale: schemas.SaleCreate):
+    prod = db.query(models.Product).get(sale.product_id)
+    total = prod.price * sale.quantity
+    dbs = models.Sale(**sale.dict(), total_price=total)
+    db.add(dbs); db.commit(); db.refresh(dbs)
+    return dbs

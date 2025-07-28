@@ -26,3 +26,28 @@ class Customer(CustomerBase):
     orders: list[Order] = []
     class Config:
         orm_mode = True
+
+class ProductBase(BaseModel):
+    name: str
+    price: float
+
+class ProductCreate(ProductBase):
+    pass
+
+class Product(ProductBase):
+    id: int
+    class Config: orm_mode = True
+
+class SaleBase(BaseModel):
+    product_id: int
+    customer_id: int
+    quantity: int
+
+class SaleCreate(SaleBase):
+    pass
+
+class Sale(SaleBase):
+    id: int
+    total_price: float
+    date: datetime
+    class Config: orm_mode = True
