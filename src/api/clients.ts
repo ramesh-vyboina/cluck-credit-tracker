@@ -24,3 +24,4 @@ export async function fetchStatement(id: number): Promise<Transaction[]> {
   const res = await fetch(`/api/clients/${id}/statement`);
   return res.json().then(data => data.transactions);
 }
+
